@@ -1,0 +1,81 @@
+<!doctype html>
+{% load static %}
+{% spaceless %}
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="icon" href="{% static 'favicon.ico' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+
+        <title>EmailAuth - {% block title %}{% endblock %}</title>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'home' %}">EmailAuth</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{% url 'home' %}">Home<span class="sr-only">(current)</span></a>
+                        </li>                    
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
+                        </li>
+                    </ul>
+                    {% if request.user.is_anonymous %}
+                    <ul class="navbar-nav ml-auto" >
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:login' %}">LOGIN</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:register' %}">REGISTER</a>
+                        </li>
+                    </ul>
+                    {% else %}
+                    <ul class="navbar-nav" >
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:logout' %}">LOGOUT</a>
+                        </li>
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </nav><br>
+
+        {% if messages %}
+            <div class="container">
+                {% for message in messages %}
+                    <div class="alert alert-dismissable alert-{{ message.tags }} fade show">
+                        {{ message|safe }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-sm-5">
+                {% block body %}{% endblock body %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="{% static 'js/jquery-slim.min.js' %}"></script>
+        <script src="{% static 'js/popper.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    </body>
+</html>
+{% endspaceless %}
